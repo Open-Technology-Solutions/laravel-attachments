@@ -1,5 +1,5 @@
 {
-  "name": "bnbwebexpertise/laravel-attachments",
+  "name": "tecdiary/laravel-attachments",
   "description": "Attach files to your models, retrievable by key, group name or using the Eloquent relationship.",
   "type": "package",
   "license": "MIT",
