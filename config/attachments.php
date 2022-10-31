@@ -11,12 +11,12 @@ return [
     |
     */
     'routes' => [
-        'publish' => true,
-        'prefix' => 'attachments',
-        'middleware' => 'web',
-        'pattern' => '/{id}/{name}',
+        'publish'        => true,
+        'prefix'         => 'attachments',
+        'middleware'     => 'web',
+        'pattern'        => '/{id}/{name}',
         'shared_pattern' => '/shared/{token}',
-        'dropzone' => [
+        'dropzone'       => [
             'upload_pattern' => '/dropzone',
             'delete_pattern' => '/dropzone/{id}',
         ]
@@ -30,7 +30,7 @@ return [
     | Attachment model used
     |
     */
-    'attachment_model' => env('ATTACHMENTS_MODEL', \Bnb\Laravel\Attachments\Attachment::class),
+    'attachment_model' => env('ATTACHMENTS_MODEL', \Tecdiary\Laravel\Attachments\Attachment::class),
 
     /*
     |--------------------------------------------------------------------------
@@ -55,7 +55,7 @@ return [
     |
     */
     'behaviors' => [
-        'cascade_delete' => env('ATTACHMENTS_CASCADE_DELETE', true),
+        'cascade_delete'      => env('ATTACHMENTS_CASCADE_DELETE', true),
         'dropzone_check_csrf' => env('ATTACHMENTS_DROPZONE_CHECK_CSRF', true),
     ],
 
@@ -81,7 +81,7 @@ return [
     |
     */
     'storage_directory' => [
-        'prefix' =>  rtrim(env('ATTACHMENTS_STORAGE_DIRECTORY_PREFIX', 'attachments'), '/'),
+        'prefix' => rtrim(env('ATTACHMENTS_STORAGE_DIRECTORY_PREFIX', 'attachments'), '/'),
     ],
 
     /*
@@ -93,6 +93,6 @@ return [
     |
     */
     'database' => [
-        'connection' =>  env('ATTACHMENTS_DATABASE_CONNECTION'),
+        'connection' => env('ATTACHMENTS_DATABASE_CONNECTION'),
     ],
 ];

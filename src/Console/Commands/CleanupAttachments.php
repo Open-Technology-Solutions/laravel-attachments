@@ -1,19 +1,13 @@
 <?php
-/**
- * laravel
- *
- * @author    Jérémy GAULIN <jeremy@bnb.re>
- * @copyright 2017 - B&B Web Expertise
- */
 
-namespace Bnb\Laravel\Attachments\Console\Commands;
+namespace Tecdiary\Laravel\Attachments\Console\Commands;
 
-use Bnb\Laravel\Attachments\Contracts\AttachmentContract;
+use Lang;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
-use Lang;
 use Symfony\Component\Console\Input\InputOption;
+use Tecdiary\Laravel\Attachments\Contracts\AttachmentContract;
 
 class CleanupAttachments extends Command
 {
@@ -34,11 +28,14 @@ class CleanupAttachments extends Command
 
         $this->setDescription(Lang::get('attachments::messages.console.cleanup_description'));
 
-        $this->getDefinition()->addOption(new InputOption('since', '-s', InputOption::VALUE_OPTIONAL,
-
-        Lang::get('attachments::messages.console.cleanup_option_since'), 1440));
+        $this->getDefinition()->addOption(new InputOption(
+            'since',
+            '-s',
+            InputOption::VALUE_OPTIONAL,
+            Lang::get('attachments::messages.console.cleanup_option_since'),
+            1440
+        ));
     }
-
 
     public function handle()
     {

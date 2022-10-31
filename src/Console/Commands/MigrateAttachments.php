@@ -1,30 +1,19 @@
 <?php
-/**
- * laravel
- *
- * @author    Jérémy GAULIN <jeremy@bnb.re>
- * @copyright 2017 - B&B Web Expertise
- */
 
-namespace Bnb\Laravel\Attachments\Console\Commands;
+namespace Tecdiary\Laravel\Attachments\Console\Commands;
 
-use Bnb\Laravel\Attachments\Attachment;
-use Carbon\Carbon;
-use Exception;
-use Illuminate\Console\Command;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Storage;
-use Lang;
 use Log;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
+use Lang;
+use Exception;
 use Throwable;
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Storage;
+use Tecdiary\Laravel\Attachments\Attachment;
+use Symfony\Component\Console\Input\InputArgument;
 
 class MigrateAttachments extends Command
 {
-
     protected $signature = 'attachments:migrate';
-
 
     public function __construct()
     {
@@ -32,15 +21,20 @@ class MigrateAttachments extends Command
 
         $this->setDescription(Lang::get('attachments::messages.console.migrate_description'));
 
-        $this->getDefinition()->addArgument(new InputArgument('from', InputArgument::REQUIRED,
-            Lang::get('attachments::messages.console.migrate_option_from')))
+        $this->getDefinition()->addArgument(new InputArgument(
+            'from',
+            InputArgument::REQUIRED,
+            Lang::get('attachments::messages.console.migrate_option_from')
+        ))
         ;
 
-        $this->getDefinition()->addArgument(new InputArgument('to', InputArgument::REQUIRED,
-            Lang::get('attachments::messages.console.migrate_option_to')))
+        $this->getDefinition()->addArgument(new InputArgument(
+            'to',
+            InputArgument::REQUIRED,
+            Lang::get('attachments::messages.console.migrate_option_to')
+        ))
         ;
     }
-
 
     public function handle()
     {
@@ -70,7 +64,6 @@ class MigrateAttachments extends Command
             $this->error(Lang::get('attachments::messages.console.migrate_invalid_from'));
         }
         try {
-
             Storage::disk($this->argument('to'))
                 ->has('.')
             ;
@@ -129,14 +122,13 @@ class MigrateAttachments extends Command
         ;
     }
 
-
     private function move(Attachment $attachment, &$deferred)
     {
         $from = $attachment->disk;
         $to = $this->argument('to');
         $filepath = $attachment->filepath;
 
-        if ( ! Storage::disk($from)->exists($filepath)) {
+        if (!Storage::disk($from)->exists($filepath)) {
             return true;
         }
 

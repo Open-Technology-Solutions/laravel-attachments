@@ -1,15 +1,15 @@
 <?php
 
-namespace Bnb\Laravel\Attachments\Http\Controllers;
+namespace Tecdiary\Laravel\Attachments\Http\Controllers;
 
-use Bnb\Laravel\Attachments\Contracts\AttachmentContract;
-use Carbon\Carbon;
+use Lang;
 use Crypt;
-use Illuminate\Contracts\Encryption\DecryptException;
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Lang;
+use Illuminate\Contracts\Encryption\DecryptException;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Tecdiary\Laravel\Attachments\Contracts\AttachmentContract;
 
 class ShareController extends Controller
 {
@@ -43,15 +43,15 @@ class ShareController extends Controller
         }
 
         if (property_exists($data, 'disposition')) {
-            $disposition = $data->disposition === 'inline' ? $data->disposition : 'attachment';
+            $disposition = 'inline' === $data->disposition ? $data->disposition : 'attachment';
         }
 
         if ($file = $this->model->where('uuid', $id)->first()) {
             try {
-            /** @var AttachmentContract $file */
-            if ( ! $file->output($disposition)) {
-                abort(403, Lang::get('attachments::messages.errors.access_denied'));
-            }
+                /** @var AttachmentContract $file */
+                if (!$file->output($disposition)) {
+                    abort(403, Lang::get('attachments::messages.errors.access_denied'));
+                }
             } catch (FileNotFoundException $e) {
                 abort(404, Lang::get('attachments::messages.errors.file_not_found'));
             }

@@ -7,6 +7,10 @@
     {
       "name": "B&B Web Expertise",
       "email": "support@bnb.re"
+    },
+    {
+      "name": "Mian Saleem",
+      "email": "saleem@tecdiary.com"
     }
   ],
   "require": {
@@ -27,7 +31,7 @@
   "prefer-stable": true,
   "autoload": {
     "psr-4": {
-      "Bnb\\Laravel\\Attachments\\": "src/"
+      "Tecdiary\\Laravel\\Attachments\\": "src/"
     }
   },
   "extra": {
@@ -37,7 +41,7 @@
     },
     "laravel": {
       "providers": [
-        "Bnb\\Laravel\\Attachments\\AttachmentsServiceProvider"
+        "Tecdiary\\Laravel\\Attachments\\AttachmentsServiceProvider"
       ]
     }
   }

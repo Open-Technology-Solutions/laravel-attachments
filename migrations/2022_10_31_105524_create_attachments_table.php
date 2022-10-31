@@ -1,11 +1,20 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
-class CreateAttachmentsTable extends Migration
+return new class extends Migration
 {
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('attachments');
+    }
 
     /**
      * Run the migrations.
@@ -23,6 +32,7 @@ class CreateAttachmentsTable extends Migration
             $table->string('filetype', 512);
             $table->unsignedInteger('filesize');
             $table->string('key', 64)->nullable();
+            $table->string('group')->nullable();
             $table->string('title', 92)->nullable();
             $table->text('description')->nullable();
             $table->string('preview_url', 512)->nullable();
@@ -31,16 +41,5 @@ class CreateAttachmentsTable extends Migration
             $table->longText('metadata')->nullable();
             $table->timestamps();
         });
-    }
-
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::dropIfExists('attachments');
     }
 }

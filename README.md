@@ -1,42 +1,35 @@
-# Laravel 5.x file attachment helpers
+# Laravel 8.37+ file attachment helpers
 
-This package allows to quickly attach files to your models, 
- retrievable by key, group name or using the Eloquent relationship.
+> This repo is fork of `bnbwebexpertise/laravel-attachments` by [B&B Web Expertise](https://github.com/bnbwebexpertise/laravel-attachments)
 
-> Can also be installed on Laravel 5.4, [see below](#older-laravel-54-install)
-
+This package allows to quickly attach files to your models,
+retrievable by key, group name or using the Eloquent relationship.
 
 ## Installation
 
-You can install this package via composer. Laravel 5.5+ auto discovers the service provider.
+You can install this package via composer.
 
     composer require tecdiary/laravel-attachments
- 
-
-### Older Laravel 5.4 install
-
-For 5.4 support install version 0.0.16 :
-
-    composer require tecdiary/laravel-attachments:0.0.16
-
-Then add the service provider to your configuration :
-
-```php
-'providers' => [
-        // ...
-
-        Bnb\Laravel\Attachments\AttachmentsServiceProvider::class,
-
-        // ...
-],
-```
 
 ## Configuration
 
 You can customize this package behavior by publishing the configuration file :
 
-    php artisan vendor:publish --provider='Bnb\Laravel\Attachments\AttachmentsServiceProvider'
+    php artisan vendor:publish --provider='Tecdiary\Laravel\Attachments\AttachmentsServiceProvider' --tag="config"
 
+## Migrations
+
+This package will load the migrations but if you don't want, you can publish migrations and stop loading of migrations `AttachmentsServiceProvider::ignoreMigrations()` by package.
+
+```
+php artisan vendor:publish --provider="Tecdiary\Laravel\Attachments\AttachmentsServiceProvider" --tag="migrations"
+
+php artisan migrate
+```
+
+Add the following line in your in AppServiceProvider's register method
+
+    \Tecdiary\Laravel\Attachments\AttachmentsServiceProvider::ignoreMigrations();
 
 ## Add attachments to a model class
 
@@ -47,7 +40,7 @@ Add the `HasAttachment` trait to your model class :
 
 namespace App;
 
-use Bnb\Laravel\Attachments\HasAttachment;
+use Tecdiary\Laravel\Attachments\HasAttachment;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -85,7 +78,6 @@ $attachment = $user->attach(\Request::file('uploaded_file'), [
 
 ## Retrieve model's attachments
 
-
 ```php
 $user = App\User::first();
 
@@ -101,7 +93,7 @@ $publicUrl = $attachmentByKey->url;
 
 The `group` attribute allows to group attachements.
 The `attachementsGroup` method provided by the `HasAttachment` trait
- returns all the attachments with the given `group` value.
+returns all the attachments with the given `group` value.
 
 ```php
 $user = App\User::first();
@@ -120,13 +112,13 @@ $attachmentsByGroup = $user->attachmentsGroup('album');
 ## Delete an attachment
 
 Calling the `delete()` method on an attachment model instance will
- delete the database row and the file. The deletion of the file can
- be disabled by setting the `behaviors.cascade_delete` to `false` in
- the configuration.
+delete the database row and the file. The deletion of the file can
+be disabled by setting the `behaviors.cascade_delete` to `false` in
+the configuration.
 
 > Not that calling `delete()` on a `query()` like statement will not
- cascade to the filesystem because it will not call the `delete()`
- method of the `Attachment` model class.
+> cascade to the filesystem because it will not call the `delete()`
+> method of the `Attachment` model class.
 
 ```php
 $user = App\User::first();
@@ -134,17 +126,16 @@ $attachmentByKey = $user->attachment('myKey');
 $attachmentByKey->delete(); // Will also delete the file on the storage by default
 ```
 
-
 ## Hooking the file output
 
-The `Bnb\Laravel\Attachments\Attachment` model class provides
- an `outputting` event that you can observe.
+The `Tecdiary\Laravel\Attachments\Attachment` model class provides
+an `outputting` event that you can observe.
 
 In the application service provider you could write for example :
 
 ```php
 <?php
-use Bnb\Laravel\Attachments\Attachment;
+use Tecdiary\Laravel\Attachments\Attachment;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -185,21 +176,24 @@ class AppServiceProvider extends ServiceProvider
 
 ## Dropzone
 
-
 ### Upload
 
 This package provides a server endpoint for [Dropzone.js](http://www.dropzonejs.com/) or equivalent
- via the `attachments.dropzone` route alias.
+via the `attachments.dropzone` route alias.
 
 It returns the attachment `uuid` along other fields as a JSON response.
- This value can be sent back later to the server to bind it to a model
- instance (deferred saving).
+This value can be sent back later to the server to bind it to a model
+instance (deferred saving).
 
 The form :
 
 ```html
-<form action="{{ route('attachments.dropzone')  }}" class="dropzone" id="my-dropzone">
-    {{ csrf_field() }}
+<form
+  action="{{ route('attachments.dropzone')  }}"
+  class="dropzone"
+  id="my-dropzone"
+>
+  {{ csrf_field() }}
 </form>
 ```
 
@@ -210,10 +204,10 @@ The response :
   "title": "b39ffd84524b",
   "filename": "readme.md",
   "filesize": 2906,
-  "filetype": "text\/html",
+  "filetype": "text/html",
   "uuid": "f5a8eec2-d860-4e53-8451-b39ffd84524b",
   "key": "58ac52e90db938.72105394",
-  "url": "http:\/\/laravel.dev:8888\/attachments\/f5a8eec2-d860-4e53-8451-b39ffd84524b\/readme.md"
+  "url": "http://laravel.dev:8888/attachments/f5a8eec2-d860-4e53-8451-b39ffd84524b/readme.md"
 }
 ```
 
@@ -221,21 +215,21 @@ Send it back later :
 
 ```html
 <form action="/upload" method="post">
-    {{ csrf_field() }}
-    <input type="hidden" name="attachment_id" id="attachment_id">
-    <button type="submit">Save</button>
+  {{ csrf_field() }}
+  <input type="hidden" name="attachment_id" id="attachment_id" />
+  <button type="submit">Save</button>
 </form>
 
 <!-- Where attachment_id is populated on success -->
 
 <script>
-    Dropzone.options.myDropzone = {
-        init: function () {
-            this.on("success", function (file, response) {
-                document.getElementById('attachment_id').value = response.uuid;
-            });
-        }
-    };
+  Dropzone.options.myDropzone = {
+    init: function () {
+      this.on("success", function (file, response) {
+        document.getElementById("attachment_id").value = response.uuid;
+      });
+    },
+  };
 </script>
 ```
 
@@ -247,7 +241,7 @@ Bind the value later :
 Route::post('/upload', function () {
     $model = App\User::first();
 
-    Bnb\Laravel\Attachments\Attachment::attach(Request::input('attachment_id'), $model);
+    Tecdiary\Laravel\Attachments\Attachment::attach(Request::input('attachment_id'), $model);
 
     return redirect('/dropzone');
 });
@@ -256,30 +250,30 @@ Route::post('/upload', function () {
 ### Delete
 
 The route `attachments.dropzone.delete` can be called via HTTP `DELETE`.
- The attachment ID must be provided as parameter.
+The attachment ID must be provided as parameter.
 
 The delete action provided by this route **only works for pending attachement**
- (not bound to a model).
+(not bound to a model).
 
 To prevent deletion of other users file, the current CSRF token is saved
- when uploading via the dropzone endpoint and it must be the same when
- calling the dropzone delete endpoint. This behavior can be deactivated
- via the configuration or env key (see [config/attachments.php](./config/attachments.php)).
+when uploading via the dropzone endpoint and it must be the same when
+calling the dropzone delete endpoint. This behavior can be deactivated
+via the configuration or env key (see [config/attachments.php](./config/attachments.php)).
 
 Usage example :
 
 ```html
 <script>
-var MyDropzone = {
-    url: "{{ route('attachments.dropzone.delete', ['id' => ':id']) }}"
-    // ...
-    deletedfile: function (file) {
-        axios.delete(this.url.replace(/:id/, file.id)).then(function () {
-            //...
-        });
-    }
-    //...
-}
+  var MyDropzone = {
+      url: "{{ route('attachments.dropzone.delete', ['id' => ':id']) }}"
+      // ...
+      deletedfile: function (file) {
+          axios.delete(this.url.replace(/:id/, file.id)).then(function () {
+              //...
+          });
+      }
+      //...
+  }
 </script>
 ```
 
@@ -289,7 +283,7 @@ Two event are fired by the dropzone endpoints controller :
 
 - `attachments.dropzone.uploading` with the `$request : Request` as parameter
 - `attachments.dropzone.deleting` with the `$request : Request` and
- the `$file : Attachement` as parameters
+  the `$file : Attachement` as parameters
 
 If one of the listeners returns false, the action is aborted.
 
@@ -307,7 +301,8 @@ public function boot()
 ```
 
 ## Temporary URLs
-It is possible to generate a unique temporary URL for downloading the attachments via the `getTemporaryUrl` method of the `Attachment` model, for sharing purposes foremost.  
+
+It is possible to generate a unique temporary URL for downloading the attachments via the `getTemporaryUrl` method of the `Attachment` model, for sharing purposes foremost.
 The `getTemporaryUrl` method has one parameter : a `Carbon` date, after which the link will no longer be valid.
 
 The default generated URL is of the form : `http://example.com/attachments/shared/<a very long string>`. The share path can be modified in the config file under the `shared_pattern` key.
@@ -315,13 +310,13 @@ The default generated URL is of the form : `http://example.com/attachments/share
 ## Cleanup commands
 
 A command is provided to cleanup the attachments not bound to a model
- (when `model_type` and `model_id` are `null`).
+(when `model_type` and `model_id` are `null`).
 
     php artisan attachment:cleanup
 
 The `-s` (or `--since=[timeInMinutes]`) option can be set to specify
- another time limit in minutes : only unbound files older than the
- specified age will be deleted. This value is set to **1440** by default.
+another time limit in minutes : only unbound files older than the
+specified age will be deleted. This value is set to **1440** by default.
 
 ## Migrate command
 
@@ -330,36 +325,36 @@ To migrate **all** attachments from one source disk to another :
     php artisan attachments:migrate public s3
 
 Files are removed from source disk if successfully saved on the target disk.
- 
+
 ## Customization
 
 ### Set a custom database connection name for the models
 
 You can customize the database connection name by either :
 
-* Adding an `.env` variable for `ATTACHMENTS_DATABASE_CONNECTION` (recommended) OR
-* Changing the configuration option `attachments.database.connection` in `config/attachments.php`.
- 
+- Adding an `.env` variable for `ATTACHMENTS_DATABASE_CONNECTION` (recommended) OR
+- Changing the configuration option `attachments.database.connection` in `config/attachments.php`.
+
 ### Extends Attachment model columns
 
 The configuration defines the list of fillable attachment attributes in the `attachment.attributes` key.
- 
-This allows you to create migration to add new columns in the attachment table 
- and declare them in your published config at `config/attachments.php`.
+
+This allows you to create migration to add new columns in the attachment table
+and declare them in your published config at `config/attachments.php`.
 
 ### Customize the attachment storage directory prefix
 
 You may easily customize the folder/prefix where new attachments are stored by either:
 
-* Adding an `.env` variable for `ATTACHMENTS_STORAGE_DIRECTORY_PREFIX` (recommended) OR
-* Changing the configuration option `attachments.storage_directory.prefix` in `config/attachments.php`.
+- Adding an `.env` variable for `ATTACHMENTS_STORAGE_DIRECTORY_PREFIX` (recommended) OR
+- Changing the configuration option `attachments.storage_directory.prefix` in `config/attachments.php`.
 
 The default value is `attachments` and any trailing `/`s will be trimmed automatically.
 
 ### Customize the attachment storage filepath
 
 If you don't want to use the default storage filepath generation, you can provide the `filepath` option (relative to the root of storage disk).
- It must contain the directory and filename. It's up to you to ensure that the provided filepath is not in conflict with another file.
+It must contain the directory and filename. It's up to you to ensure that the provided filepath is not in conflict with another file.
 
 ```php
 $model->attach('/foo/bar/pdf.pdf', ['filepath' => 'foo/bar/test.pdf']);
@@ -371,13 +366,13 @@ $model->attach('/foo/bar/pdf.pdf', ['filepath' => 'foo/bar/test.pdf']);
 
 This can be helpful to add some relations to the attachment model.
 
-Create your own model that extends `Bnb\Laravel\Attachments\Attachment` :
+Create your own model that extends `Tecdiary\Laravel\Attachments\Attachment` :
 
 ```php
 <?php
 namespace App;
 
-class MyAttachment extends Bnb\Laravel\Attachments\Attachment
+class MyAttachment extends Tecdiary\Laravel\Attachments\Attachment
 {
     // ...
     public function someCustomRelation() {
@@ -388,9 +383,10 @@ class MyAttachment extends Bnb\Laravel\Attachments\Attachment
 ```
 
 To configure your own model class you can use one of the following possibilities :
+
 - Publish the configuration and update the `attachment_model` value
 - Set the `ATTACHMENTS_MODEL` environment value
-- Bind your model to the `Bnb\Laravel\Attachments\Contracts\AttachmentContract` interface in a service provider
+- Bind your model to the `Tecdiary\Laravel\Attachments\Contracts\AttachmentContract` interface in a service provider
 
 Examples :
 
@@ -419,7 +415,7 @@ class AppServiceProvider extends ServiceProvider {
     {
         // ...
         $this->app->bind(
-            \Bnb\Laravel\Attachments\Contracts\AttachmentContract::class,
+            \Tecdiary\Laravel\Attachments\Contracts\AttachmentContract::class,
             \App\MyAttachment::class
         );
         // ...

@@ -1,7 +1,7 @@
 <?php
-namespace Bnb\Laravel\Attachments\Contracts;
+
+namespace Tecdiary\Laravel\Attachments\Contracts;
 
 interface AttachmentContract
 {
-
 }

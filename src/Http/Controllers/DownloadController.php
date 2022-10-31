@@ -1,16 +1,15 @@
 <?php
 
-namespace Bnb\Laravel\Attachments\Http\Controllers;
+namespace Tecdiary\Laravel\Attachments\Http\Controllers;
 
-use Bnb\Laravel\Attachments\Contracts\AttachmentContract;
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Lang;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Lang;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Tecdiary\Laravel\Attachments\Contracts\AttachmentContract;
 
 class DownloadController extends Controller
 {
-
     /**
      * Attachment model
      *
@@ -18,12 +17,10 @@ class DownloadController extends Controller
      */
     protected $model;
 
-
     public function __construct(AttachmentContract $model)
     {
         $this->model = $model;
     }
-
 
     public function download($id, Request $request)
     {
@@ -31,8 +28,8 @@ class DownloadController extends Controller
 
         if ($file = $this->model->where('uuid', $id)->first()) {
             try {
-                /** @var \Bnb\Laravel\Attachments\Attachment $file */
-                if ( ! $file->output($disposition)) {
+                /** @var \Tecdiary\Laravel\Attachments\Attachment $file */
+                if (!$file->output($disposition)) {
                     abort(403, Lang::get('attachments::messages.errors.access_denied'));
                 }
             } catch (FileNotFoundException $e) {
