@@ -14,18 +14,18 @@
     }
   ],
   "require": {
-    "php": ">=7.0",
-    "illuminate/database": ">=5.5",
-    "illuminate/routing": ">=5.5",
-    "illuminate/support": ">=5.5",
-    "illuminate/console": ">=5.5",
-    "illuminate/encryption": ">=5.5",
+    "php": ">=8.0.2",
+    "illuminate/database": ">=8.37",
+    "illuminate/routing": ">=8.37",
+    "illuminate/support": ">=8.37",
+    "illuminate/console": ">=8.37",
+    "illuminate/encryption": ">=8.37",
     "bnbwebexpertise/php-uuid": ">=0.0.2",
-    "doctrine/dbal": ">=2.5",
+    "doctrine/dbal": "^3.0",
     "nesbot/carbon": "^1.20 || ^2.0"
   },
   "require-dev": {
-    "laravel/framework": ">=5.5"
+    "laravel/framework": ">=8.37"
   },
   "minimum-stability": "stable",
   "prefer-stable": true,
@@ -35,10 +35,6 @@
     }
   },
   "extra": {
-    "branch-alias": {
-      "dev-master": "1.x-dev",
-      "dev-L5.4": "0.x-dev"
-    },
     "laravel": {
       "providers": [
         "Tecdiary\\Laravel\\Attachments\\AttachmentsServiceProvider"
