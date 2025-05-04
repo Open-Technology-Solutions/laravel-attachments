@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-return new class () extends Migration {
+return new class() extends Migration {
     /**
      * Reverse the migrations.
      *
@@ -35,8 +35,8 @@ return new class () extends Migration {
             $table->string('title', 92)->nullable();
             $table->text('description')->nullable();
             $table->string('preview_url', 512)->nullable();
-            $table->unsignedInteger('model_id')->nullable()->index();
-            $table->string('model_type', 512)->nullable();
+
+            $table->nullableMorphs('attachable');
             $table->longText('metadata')->nullable();
             $table->timestamps();
         });

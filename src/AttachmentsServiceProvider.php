@@ -1,10 +1,10 @@
 <?php
 
-namespace Tecdiary\Laravel\Attachments;
+namespace Otsglobal\Laravel\Attachments;
 
 use Illuminate\Support\ServiceProvider;
-use Tecdiary\Laravel\Attachments\Console\Commands\CleanupAttachments;
-use Tecdiary\Laravel\Attachments\Console\Commands\MigrateAttachments;
+use Otsglobal\Laravel\Attachments\Console\Commands\CleanupAttachments;
+use Otsglobal\Laravel\Attachments\Console\Commands\MigrateAttachments;
 
 class AttachmentsServiceProvider extends ServiceProvider
 {
@@ -24,7 +24,7 @@ class AttachmentsServiceProvider extends ServiceProvider
         if (!class_exists('CreateAttachmentsTable')) {
             $this->publishes([
                 __DIR__ . '/../migrations/2022_10_31_105524_create_attachments_table.php'
-                    => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_attachments_table.php'),
+                => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_attachments_table.php'),
             ], 'migrations');
         }
 
@@ -71,7 +71,7 @@ class AttachmentsServiceProvider extends ServiceProvider
 
         // Bind Model to Interface
         $this->app->bind(
-            \Tecdiary\Laravel\Attachments\Contracts\AttachmentContract::class,
+            \Otsglobal\Laravel\Attachments\Contracts\AttachmentContract::class,
             $this->app['config']->get('attachments.attachment_model')
         );
     }

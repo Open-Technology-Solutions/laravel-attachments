@@ -1,12 +1,12 @@
 <?php
 
-namespace Tecdiary\Laravel\Attachments\Http\Controllers;
+namespace Otsglobal\Laravel\Attachments\Http\Controllers;
 
 use Lang;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
-use Tecdiary\Laravel\Attachments\Contracts\AttachmentContract;
+use Otsglobal\Laravel\Attachments\Contracts\AttachmentContract;
 
 class DownloadController extends Controller
 {
@@ -28,7 +28,7 @@ class DownloadController extends Controller
 
         if ($file = $this->model->where('uuid', $id)->first()) {
             try {
-                /** @var \Tecdiary\Laravel\Attachments\Attachment $file */
+                /** @var \Otsglobal\Laravel\Attachments\Attachment $file */
                 if (!$file->output($disposition)) {
                     abort(403, Lang::get('attachments::messages.errors.access_denied'));
                 }

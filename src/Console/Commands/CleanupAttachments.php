@@ -1,13 +1,13 @@
 <?php
 
-namespace Tecdiary\Laravel\Attachments\Console\Commands;
+namespace Otsglobal\Laravel\Attachments\Console\Commands;
 
 use Lang;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Symfony\Component\Console\Input\InputOption;
-use Tecdiary\Laravel\Attachments\Contracts\AttachmentContract;
+use Otsglobal\Laravel\Attachments\Contracts\AttachmentContract;
 
 class CleanupAttachments extends Command
 {
@@ -41,8 +41,8 @@ class CleanupAttachments extends Command
     {
         if ($this->confirm(Lang::get('attachments::messages.console.cleanup_confirm'))) {
             $query = $this->model
-                ->whereNull('model_type')
-                ->whereNull('model_id')
+                ->whereNull('attachable_type')
+                ->whereNull('attachable_id')
                 ->where('updated_at', '<=', Carbon::now()->addMinutes(-1 * $this->option('since')));
 
             $progress = $this->output->createProgressBar($count = $query->count());

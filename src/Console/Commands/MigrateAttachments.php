@@ -1,6 +1,6 @@
 <?php
 
-namespace Tecdiary\Laravel\Attachments\Console\Commands;
+namespace Otsglobal\Laravel\Attachments\Console\Commands;
 
 use Log;
 use Lang;
@@ -8,7 +8,7 @@ use Exception;
 use Throwable;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
-use Tecdiary\Laravel\Attachments\Attachment;
+use Otsglobal\Laravel\Attachments\Attachment;
 use Symfony\Component\Console\Input\InputArgument;
 
 class MigrateAttachments extends Command

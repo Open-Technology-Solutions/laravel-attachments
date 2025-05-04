@@ -1,12 +1,12 @@
 <?php
 
-namespace Tecdiary\Laravel\Attachments;
+namespace Otsglobal\Laravel\Attachments;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Tecdiary\Laravel\Attachments\Contracts\AttachmentContract;
+use Otsglobal\Laravel\Attachments\Contracts\AttachmentContract;
 
 trait HasAttachment
 {

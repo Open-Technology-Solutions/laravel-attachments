@@ -1,6 +1,6 @@
 <?php
 
-namespace Tecdiary\Laravel\Attachments\Http\Controllers;
+namespace Otsglobal\Laravel\Attachments\Http\Controllers;
 
 use Log;
 use Lang;
@@ -9,7 +9,7 @@ use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Tecdiary\Laravel\Attachments\Contracts\AttachmentContract;
+use Otsglobal\Laravel\Attachments\Contracts\AttachmentContract;
 
 class DropzoneController extends Controller
 {
@@ -31,11 +31,12 @@ class DropzoneController extends Controller
             if ($file = $this->model->where('uuid', $id)->first()) {
                 /** @var AttachmentContract $file */
 
-                if ($file->model_type || $file->model_id) {
+                if ($file->attachable_type || $file->attachable_id) {
                     return response(Lang::get('attachments::messages.errors.delete_denied'), 422);
                 }
 
-                if (filter_var(config('attachments.behaviors.dropzone_check_csrf'), FILTER_VALIDATE_BOOLEAN) &&
+                if (
+                    filter_var(config('attachments.behaviors.dropzone_check_csrf'), FILTER_VALIDATE_BOOLEAN) &&
                     $file->metadata('dz_session_key') !== csrf_token()
                 ) {
                     return response(Lang::get('attachments::messages.errors.delete_denied'), 401);

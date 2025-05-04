@@ -9,27 +9,27 @@ retrievable by key, group name or using the Eloquent relationship.
 
 You can install this package via composer.
 
-    composer require tecdiary/laravel-attachments
+    composer require otsglobal/laravel-attachments
 
 ## Configuration
 
 You can customize this package behavior by publishing the configuration file :
 
-    php artisan vendor:publish --provider='Tecdiary\Laravel\Attachments\AttachmentsServiceProvider' --tag="config"
+    php artisan vendor:publish --provider='Otsglobal\Laravel\Attachments\AttachmentsServiceProvider' --tag="config"
 
 ## Migrations
 
 This package will load the migrations but if you don't want, you can publish migrations and stop loading of migrations `AttachmentsServiceProvider::ignoreMigrations()` by package.
 
 ```
-php artisan vendor:publish --provider="Tecdiary\Laravel\Attachments\AttachmentsServiceProvider" --tag="migrations"
+php artisan vendor:publish --provider="Otsglobal\Laravel\Attachments\AttachmentsServiceProvider" --tag="migrations"
 
 php artisan migrate
 ```
 
 Add the following line in your in AppServiceProvider's register method
 
-    \Tecdiary\Laravel\Attachments\AttachmentsServiceProvider::ignoreMigrations();
+    \Otsglobal\Laravel\Attachments\AttachmentsServiceProvider::ignoreMigrations();
 
 ## Add attachments to a model class
 
@@ -40,7 +40,7 @@ Add the `HasAttachment` trait to your model class :
 
 namespace App;
 
-use Tecdiary\Laravel\Attachments\HasAttachment;
+use Otsglobal\Laravel\Attachments\HasAttachment;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -128,14 +128,14 @@ $attachmentByKey->delete(); // Will also delete the file on the storage by defau
 
 ## Hooking the file output
 
-The `Tecdiary\Laravel\Attachments\Attachment` model class provides
+The `Otsglobal\Laravel\Attachments\Attachment` model class provides
 an `outputting` event that you can observe.
 
 In the application service provider you could write for example :
 
 ```php
 <?php
-use Tecdiary\Laravel\Attachments\Attachment;
+use Otsglobal\Laravel\Attachments\Attachment;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -241,7 +241,7 @@ Bind the value later :
 Route::post('/upload', function () {
     $model = App\User::first();
 
-    Tecdiary\Laravel\Attachments\Attachment::attach(Request::input('attachment_id'), $model);
+    Otsglobal\Laravel\Attachments\Attachment::attach(Request::input('attachment_id'), $model);
 
     return redirect('/dropzone');
 });
@@ -310,7 +310,7 @@ The default generated URL is of the form : `http://example.com/attachments/share
 ## Cleanup commands
 
 A command is provided to cleanup the attachments not bound to a model
-(when `model_type` and `model_id` are `null`).
+(when `attachable_type` and `attachable_id` are `null`).
 
     php artisan attachment:cleanup
 
@@ -366,13 +366,13 @@ $model->attach('/foo/bar/pdf.pdf', ['filepath' => 'foo/bar/test.pdf']);
 
 This can be helpful to add some relations to the attachment model.
 
-Create your own model that extends `Tecdiary\Laravel\Attachments\Attachment` :
+Create your own model that extends `Otsglobal\Laravel\Attachments\Attachment` :
 
 ```php
 <?php
 namespace App;
 
-class MyAttachment extends Tecdiary\Laravel\Attachments\Attachment
+class MyAttachment extends Otsglobal\Laravel\Attachments\Attachment
 {
     // ...
     public function someCustomRelation() {
@@ -386,7 +386,7 @@ To configure your own model class you can use one of the following possibilities
 
 - Publish the configuration and update the `attachment_model` value
 - Set the `ATTACHMENTS_MODEL` environment value
-- Bind your model to the `Tecdiary\Laravel\Attachments\Contracts\AttachmentContract` interface in a service provider
+- Bind your model to the `Otsglobal\Laravel\Attachments\Contracts\AttachmentContract` interface in a service provider
 
 Examples :
 
@@ -415,7 +415,7 @@ class AppServiceProvider extends ServiceProvider {
     {
         // ...
         $this->app->bind(
-            \Tecdiary\Laravel\Attachments\Contracts\AttachmentContract::class,
+            \Otsglobal\Laravel\Attachments\Contracts\AttachmentContract::class,
             \App\MyAttachment::class
         );
         // ...

@@ -1,7 +1,5 @@
 <?php
 
-namespace Tecdiary\Laravel\Attachments\Contracts;
+namespace Otsglobal\Laravel\Attachments\Contracts;
 
-interface AttachmentContract
-{
-}
+interface AttachmentContract {}

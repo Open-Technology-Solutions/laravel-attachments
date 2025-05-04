@@ -1,6 +1,6 @@
 <?php
 
-namespace Tecdiary\Laravel\Attachments;
+namespace Otsglobal\Laravel\Attachments;
 
 use Crypt;
 use Storage;
@@ -11,13 +11,13 @@ use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\File as FileObj;
-use Tecdiary\Laravel\Attachments\Contracts\AttachmentContract;
+use Otsglobal\Laravel\Attachments\Contracts\AttachmentContract;
 
 /**
  * @property int    id
  * @property string uuid
- * @property int    model_id
- * @property string model_type
+ * @property int    attachable_id
+ * @property string attachable_type
  * @property string disk
  * @property string filepath     the full path on storage disk
  * @property string filename
@@ -36,7 +36,7 @@ use Tecdiary\Laravel\Attachments\Contracts\AttachmentContract;
  * @property string proxy_url          the public URL using app as proxy (read-only mutator)
  * @property string proxy_url_inline   the public URL using app as proxy with inline switch (read-only mutator)
  *
- * @package   Tecdiary\Laravel\Attachments
+ * @package   Otsglobal\Laravel\Attachments
  */
 class Attachment extends Model implements AttachmentContract
 {

@@ -30,7 +30,7 @@ return [
     | Attachment model used
     |
     */
-    'attachment_model' => env('ATTACHMENTS_MODEL', \Tecdiary\Laravel\Attachments\Attachment::class),
+    'attachment_model' => env('ATTACHMENTS_MODEL', \Otsglobal\Laravel\Attachments\Attachment::class),
 
     /*
     |--------------------------------------------------------------------------

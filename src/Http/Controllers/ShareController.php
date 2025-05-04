@@ -1,6 +1,6 @@
 <?php
 
-namespace Tecdiary\Laravel\Attachments\Http\Controllers;
+namespace Otsglobal\Laravel\Attachments\Http\Controllers;
 
 use Lang;
 use Crypt;
@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
-use Tecdiary\Laravel\Attachments\Contracts\AttachmentContract;
+use Otsglobal\Laravel\Attachments\Contracts\AttachmentContract;
 
 class ShareController extends Controller
 {
