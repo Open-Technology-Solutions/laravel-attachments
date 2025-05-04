@@ -62,6 +62,7 @@ class Attachment extends Model implements AttachmentContract
      */
     public static function attach($uuid, $model, $options = [])
     {
+
         /** @var Attachment $attachment */
         $attachment = self::where('uuid', $uuid)->first();
 

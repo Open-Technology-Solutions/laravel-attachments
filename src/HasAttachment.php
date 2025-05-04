@@ -75,7 +75,8 @@ trait HasAttachment
      */
     public function attachments()
     {
-        return $this->morphMany(get_class(app(AttachmentContract::class)), 'model');
+        return $this->morphMany(get_class(app(AttachmentContract::class)), 'attachable')
+            ->orderBy('created_at', 'desc');
     }
 
     /**
